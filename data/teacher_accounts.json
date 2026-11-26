@@ -1,0 +1,28 @@
+[
+  {
+    "id": "teacher_tatai099",
+    "username": "tatai099",
+    "name": "Prof. Tatai",
+    "title": "Senior Faculty · Physics & Mechanics",
+    "email": "tatai099@obren.study",
+    "subject": "Physics",
+    "avatarColor": "bg-indigo-600",
+    "passwordSalt": "ea6cca5cdc6448f8aa825ac3604d9c2a",
+    "passwordHash": "023434a7e4492ecbaa5862b37bd6c656bf4c277a246cf23479c73c6f7df43b4725aeed8c1f6d29f167436498889c217e4e364131fb3ec73569d2fc37830e47a8",
+    "createdAt": "2026-11-26T04:57:37.672Z",
+    "updatedAt": "2026-11-26T04:57:37.672Z"
+  },
+  {
+    "id": "teacher_rp",
+    "username": "rp",
+    "name": "Dr. R.P.",
+    "title": "Head of Department · Chemistry & Mathematics",
+    "email": "rp@obren.study",
+    "subject": "Chemistry",
+    "avatarColor": "bg-emerald-600",
+    "passwordSalt": "2c6d9b87277e1ef035c6a83a97ca2e0e",
+    "passwordHash": "07e43355188062bf73a25f22ffd921d966b250b5b910e1df135b02d0f3db59229312deff6a5ed79fa7e0efe050943842e85a7abb77840aa870971d917514c328",
+    "createdAt": "2026-11-26T04:57:37.735Z",
+    "updatedAt": "2026-11-26T04:57:37.735Z"
+  }
+]

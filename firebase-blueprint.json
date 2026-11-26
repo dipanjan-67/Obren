@@ -1,0 +1,735 @@
+{
+  "entities": {
+    "UserPrivate": {
+      "title": "UserPrivate",
+      "description": "Private user account profile, study goals, and gamification telemetry.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "maxLength": 320 },
+        "displayName": { "type": "string", "maxLength": 80 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["STUDENT", "ADMIN"] },
+        "targetExam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "targetClass": { "type": "string", "enum": ["11", "12", "DROPPER"] },
+        "targetYear": { "type": "integer" },
+        "dailyStudyGoalMins": { "type": "integer" },
+        "weeklyTestsGoal": { "type": "integer" },
+        "weeklyQuestionsGoal": { "type": "integer" },
+        "emailNotificationsEnabled": { "type": "boolean" },
+        "pomodoroFocusMins": { "type": "integer" },
+        "pomodoroShortBreakMins": { "type": "integer" },
+        "pomodoroLongBreakMins": { "type": "integer" },
+        "xp": { "type": "integer" },
+        "streakDays": { "type": "integer" },
+        "longestStreak": { "type": "integer" },
+        "lastActiveDate": { "type": "string", "maxLength": 10 },
+        "totalStudyMinutes": { "type": "integer" },
+        "totalQuestionsSolved": { "type": "integer" },
+        "totalCorrect": { "type": "integer" },
+        "totalTestsCompleted": { "type": "integer" },
+        "completedChapters": { "type": "array", "description": "List of completed curriculum roadmap chapter keys." },
+        "lastDailyChallengeDate": { "type": "string", "maxLength": 10 },
+        "dailyChallengeStreak": { "type": "integer" },
+        "examCustomization": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "displayName", "targetExam", "targetClass", "xp", "streakDays", "createdAt", "updatedAt"]
+    },
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Public non-PII profile for global leaderboard and group collaboration.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "maxLength": 80 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "targetExam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "targetClass": { "type": "string", "enum": ["11", "12", "DROPPER"] },
+        "xp": { "type": "integer" },
+        "streakDays": { "type": "integer" },
+        "totalQuestionsSolved": { "type": "integer" },
+        "totalCorrect": { "type": "integer" },
+        "totalTestsCompleted": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "targetExam", "targetClass", "xp", "streakDays", "updatedAt"]
+    },
+    "PyqBank": {
+      "title": "PyqBank",
+      "description": "Metadata for an uploaded PYQ PDF or curated question bank.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 160 },
+        "fileName": { "type": "string", "maxLength": 200 },
+        "fileSizeBytes": { "type": "integer" },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "classLevel": { "type": "string", "enum": ["11", "12", "ALL"] },
+        "questionCount": { "type": "integer" },
+        "visibility": { "type": "string", "enum": ["PRIVATE", "PUBLIC"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "title", "exam", "classLevel", "questionCount", "visibility", "createdAt"]
+    },
+    "PyqQuestion": {
+      "title": "PyqQuestion",
+      "description": "Individual Past Year Question extracted from PDF or added by user.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "bankId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "visibility": { "type": "string", "enum": ["PRIVATE", "PUBLIC"] },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "classLevel": { "type": "string", "enum": ["11", "12"] },
+        "subject": { "type": "string", "enum": ["Physics", "Chemistry", "Mathematics", "Biology"] },
+        "topic": { "type": "string", "maxLength": 120 },
+        "year": { "type": "string", "maxLength": 32 },
+        "questionType": { "type": "string", "enum": ["MCQ", "NUMERICAL", "MULTI_MCQ"] },
+        "prompt": { "type": "string", "maxLength": 4000 },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "string", "maxLength": 200 },
+        "solution": { "type": "string", "maxLength": 4000 },
+        "imageUrl": { "type": "string", "maxLength": 250000 },
+        "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "bankId", "visibility", "exam", "classLevel", "subject", "topic", "questionType", "prompt", "correctAnswer", "createdAt"]
+    },
+    "TestAttempt": {
+      "title": "TestAttempt",
+      "description": "Completed NTA CBT test attempt and analytics breakdown.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 160 },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "testMode": { "type": "string", "enum": ["DAILY", "WEEKLY", "MONTHLY", "CUSTOM", "AI_GENERATOR", "BOOSTER", "DUEL", "BOOKMARK_REVIEW", "DAILY_CHALLENGE", "MISTAKE_REVIEW"] },
+        "classLevel": { "type": "string", "enum": ["11", "12", "ALL"] },
+        "subjectFilter": { "type": "string", "maxLength": 80 },
+        "topicFilter": { "type": "string", "maxLength": 120 },
+        "totalQuestions": { "type": "integer" },
+        "attemptedCount": { "type": "integer" },
+        "correctCount": { "type": "integer" },
+        "incorrectCount": { "type": "integer" },
+        "score": { "type": "number" },
+        "maxScore": { "type": "number" },
+        "accuracyPercent": { "type": "number" },
+        "timeSpentSeconds": { "type": "integer" },
+        "questionResults": { "type": "array" },
+        "submissionReason": { "type": "string", "enum": ["MANUAL", "TIMER_EXPIRED", "LOOKING_AWAY_LIMIT", "FACE_MISSING_LIMIT"] },
+        "proctoringSessionId": { "type": "string", "maxLength": 128 },
+        "proctoringSummary": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "title", "exam", "testMode", "totalQuestions", "correctCount", "score", "maxScore", "accuracyPercent", "timeSpentSeconds", "createdAt"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "Bookmarked difficult question saved for revision.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "questionId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "classLevel": { "type": "string", "enum": ["11", "12"] },
+        "subject": { "type": "string", "maxLength": 40 },
+        "topic": { "type": "string", "maxLength": 120 },
+        "prompt": { "type": "string", "maxLength": 4000 },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "string", "maxLength": 200 },
+        "solution": { "type": "string", "maxLength": 4000 },
+        "imageUrl": { "type": "string", "maxLength": 250000 },
+        "note": { "type": "string", "maxLength": 1000 },
+        "masteryStatus": { "type": "string", "enum": ["REVISIT", "PRACTICED", "MASTERED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "questionId", "exam", "subject", "prompt", "correctAnswer", "masteryStatus", "createdAt", "updatedAt"]
+    },
+    "PlannerTask": {
+      "title": "PlannerTask",
+      "description": "Daily planner task, weekly timetable block, or scheduled test plan.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 180 },
+        "category": { "type": "string", "enum": ["DAILY_TASK", "TEST_PLAN", "TIMETABLE"] },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "subject": { "type": "string", "maxLength": 40 },
+        "topic": { "type": "string", "maxLength": 120 },
+        "testMode": { "type": "string", "maxLength": 40 },
+        "scheduledDate": { "type": "string", "maxLength": 20 },
+        "scheduledTime": { "type": "string", "maxLength": 20 },
+        "dayOfWeek": { "type": "integer" },
+        "durationMins": { "type": "integer" },
+        "actualDurationMins": { "type": "integer" },
+        "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "title", "category", "priority", "completed", "createdAt", "updatedAt"]
+    },
+    "StudySession": {
+      "title": "StudySession",
+      "description": "Focused study or Pomodoro session record.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subject": { "type": "string", "maxLength": 40 },
+        "topic": { "type": "string", "maxLength": 120 },
+        "mode": { "type": "string", "enum": ["POMODORO", "DEEP_WORK"] },
+        "durationMins": { "type": "integer" },
+        "xpEarned": { "type": "integer" },
+        "dateKey": { "type": "string", "maxLength": 10 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "subject", "mode", "durationMins", "xpEarned", "dateKey", "createdAt"]
+    },
+    "StudyFolder": {
+      "title": "StudyFolder",
+      "description": "Personal or shared collaborative study notes folder.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "subject": { "type": "string", "maxLength": 40 },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "isShared": { "type": "boolean" },
+        "inviteCode": { "type": "string", "maxLength": 24, "pattern": "^[A-Z0-9_\\-]+$" },
+        "memberIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "subject", "exam", "isShared", "inviteCode", "memberIds", "createdAt", "updatedAt"]
+    },
+    "StudyNote": {
+      "title": "StudyNote",
+      "description": "Study note inside a personal or collaborative folder, exportable to PDF.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "authorName": { "type": "string", "maxLength": 80 },
+        "folderId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "memberIds": { "type": "array" },
+        "title": { "type": "string", "maxLength": 160 },
+        "subject": { "type": "string", "maxLength": 40 },
+        "topic": { "type": "string", "maxLength": 120 },
+        "content": { "type": "string", "maxLength": 20000 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "authorName", "folderId", "memberIds", "title", "subject", "content", "createdAt", "updatedAt"]
+    },
+    "StudyGroup": {
+      "title": "StudyGroup",
+      "description": "Collaborative study group with invite code and real-time chat.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "targetExam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "inviteCode": { "type": "string", "maxLength": 24, "pattern": "^[A-Z0-9_\\-]+$" },
+        "memberIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "targetExam", "inviteCode", "memberIds", "createdAt", "updatedAt"]
+    },
+    "GroupMessage": {
+      "title": "GroupMessage",
+      "description": "Real-time chat message inside a study group.",
+      "type": "object",
+      "properties": {
+        "groupId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "senderId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "senderName": { "type": "string", "maxLength": 80 },
+        "senderPhoto": { "type": "string", "maxLength": 500 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "attachmentTitle": { "type": "string", "maxLength": 160 },
+        "attachmentType": { "type": "string", "enum": ["NONE", "NOTE", "PYQ", "DUEL"] },
+        "memberIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["groupId", "senderId", "senderName", "text", "attachmentType", "memberIds", "createdAt"]
+    },
+    "TestDuel": {
+      "title": "TestDuel",
+      "description": "Real-time 1v1 competitive PYQ test duel room.",
+      "type": "object",
+      "properties": {
+        "hostId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "hostName": { "type": "string", "maxLength": 80 },
+        "guestId": { "type": "string", "maxLength": 128 },
+        "guestName": { "type": "string", "maxLength": 80 },
+        "duelCode": { "type": "string", "maxLength": 24, "pattern": "^[A-Z0-9_\\-]+$" },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "subject": { "type": "string", "maxLength": 40 },
+        "questionCount": { "type": "integer" },
+        "questionIds": { "type": "array" },
+        "inlineQuestions": { "type": "array" },
+        "status": { "type": "string", "enum": ["WAITING", "ACTIVE", "FINISHED"] },
+        "hostProgress": { "type": "integer" },
+        "hostScore": { "type": "number" },
+        "hostFinished": { "type": "boolean" },
+        "guestProgress": { "type": "integer" },
+        "guestScore": { "type": "number" },
+        "guestFinished": { "type": "boolean" },
+        "winnerId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["hostId", "hostName", "duelCode", "exam", "subject", "questionCount", "questionIds", "status", "hostProgress", "hostScore", "hostFinished", "guestProgress", "guestScore", "guestFinished", "createdAt", "updatedAt"]
+    },
+    "MistakeLog": {
+      "title": "MistakeLog",
+      "description": "Error notebook entry for incorrect or slow test questions.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "questionId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "attemptId": { "type": "string", "maxLength": 128 },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "classLevel": { "type": "string", "enum": ["11", "12"] },
+        "subject": { "type": "string", "maxLength": 40 },
+        "topic": { "type": "string", "maxLength": 120 },
+        "questionType": { "type": "string", "enum": ["MCQ", "NUMERICAL", "MULTI_MCQ"] },
+        "prompt": { "type": "string", "maxLength": 4000 },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "string", "maxLength": 200 },
+        "solution": { "type": "string", "maxLength": 4000 },
+        "imageUrl": { "type": "string", "maxLength": 250000 },
+        "userAnswer": { "type": "string", "maxLength": 200 },
+        "timeSpentSeconds": { "type": "integer" },
+        "reasonTag": { "type": "string", "enum": ["UNSET", "CONCEPTUAL", "FORMULA", "SILLY", "TIME_PRESSURE"] },
+        "resolved": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "questionId", "exam", "subject", "topic", "prompt", "correctAnswer", "reasonTag", "resolved", "createdAt", "updatedAt"]
+    },
+    "TeacherProfile": {
+      "title": "TeacherProfile",
+      "description": "Tuition teacher profile with contact info and default location/link.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 80 },
+        "subject": { "type": "string", "maxLength": 40 },
+        "email": { "type": "string", "maxLength": 160 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "locationOrLink": { "type": "string", "maxLength": 300 },
+        "avatarColor": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "name", "subject", "avatarColor", "createdAt", "updatedAt"]
+    },
+    "TuitionSession": {
+      "title": "TuitionSession",
+      "description": "Scheduled or completed tuition session with Teacher Came and Teacher Gone attendance timestamps.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "teacherId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "teacherName": { "type": "string", "maxLength": 80 },
+        "subject": { "type": "string", "maxLength": 40 },
+        "date": { "type": "string", "maxLength": 10 },
+        "startTime": { "type": "string", "maxLength": 5 },
+        "endTime": { "type": "string", "maxLength": 5 },
+        "recurringDays": { "type": "array" },
+        "locationOrLink": { "type": "string", "maxLength": 300 },
+        "status": { "type": "string", "enum": ["SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"] },
+        "teacherCameAt": { "type": "string", "maxLength": 20 },
+        "teacherGoneAt": { "type": "string", "maxLength": 20 },
+        "teacherCameTimestamp": { "type": "integer" },
+        "teacherGoneTimestamp": { "type": "integer" },
+        "actualDurationMinutes": { "type": "integer" },
+        "googleEventId": { "type": "string", "maxLength": 200 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "teacherId", "teacherName", "subject", "date", "startTime", "endTime", "locationOrLink", "status", "createdAt", "updatedAt"]
+    },
+    "StopwatchRecord": {
+      "title": "StopwatchRecord",
+      "description": "Completed self-study stopwatch or tuition time-tracking log.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "subject": { "type": "string", "maxLength": 40 },
+        "taskId": { "type": "string", "maxLength": 128 },
+        "taskTitle": { "type": "string", "maxLength": 180 },
+        "startTime": { "type": "string", "maxLength": 20 },
+        "durationSeconds": { "type": "integer" },
+        "type": { "type": "string", "enum": ["SELF_STUDY", "TUITION"] },
+        "date": { "type": "string", "maxLength": 10 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "subject", "startTime", "durationSeconds", "type", "date", "createdAt"]
+    },
+    "StudyTrackSettings": {
+      "title": "StudyTrackSettings",
+      "description": "User preferences for Google Calendar sync and 15-minute tuition reminders.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "googleCalendarConnected": { "type": "boolean" },
+        "googleAccountEmail": { "type": "string", "maxLength": 320 },
+        "enabled15MinReminder": { "type": "boolean" },
+        "pushNotifications": { "type": "boolean" },
+        "reminderOffsetMinutes": { "type": "integer" },
+        "soundAlert": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "googleCalendarConnected", "enabled15MinReminder", "pushNotifications", "reminderOffsetMinutes", "soundAlert", "updatedAt"]
+    },
+    "DailyGoalLog": {
+      "title": "DailyGoalLog",
+      "description": "Per-day question completion progress for the student daily goal tracker.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "dateKey": { "type": "string", "maxLength": 10 },
+        "questionsCompleted": { "type": "integer" },
+        "targetQuestions": { "type": "integer" },
+        "goalReached": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "dateKey", "questionsCompleted", "targetQuestions", "goalReached", "updatedAt"]
+    },
+    "ProctoringSettings": {
+      "title": "ProctoringSettings",
+      "description": "Admin-controlled examination proctoring, fullscreen, and daily goal defaults.",
+      "type": "object",
+      "properties": {
+        "proctoringEnabled": { "type": "boolean" },
+        "lookingAwayEnabled": { "type": "boolean" },
+        "faceMissingEnabled": { "type": "boolean" },
+        "lookingAwayThresholdSeconds": { "type": "integer" },
+        "faceMissingThresholdSeconds": { "type": "integer" },
+        "maxLookingAwayWarnings": { "type": "integer" },
+        "maxFaceMissingWarnings": { "type": "integer" },
+        "fullscreenMonitoringEnabled": { "type": "boolean" },
+        "autoSubmitOnLimit": { "type": "boolean" },
+        "dailyQuestionGoal": { "type": "integer" },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["proctoringEnabled", "lookingAwayEnabled", "faceMissingEnabled", "lookingAwayThresholdSeconds", "faceMissingThresholdSeconds", "maxLookingAwayWarnings", "maxFaceMissingWarnings", "fullscreenMonitoringEnabled", "autoSubmitOnLimit", "dailyQuestionGoal", "updatedAt"]
+    },
+    "ExamProctoringSession": {
+      "title": "ExamProctoringSession",
+      "description": "Live and historical examination proctoring warnings, camera state, and event logs.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "studentName": { "type": "string", "maxLength": 80 },
+        "examTitle": { "type": "string", "maxLength": 160 },
+        "exam": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET"] },
+        "status": { "type": "string", "enum": ["NOT_STARTED", "IN_PROGRESS", "SUBMITTED", "AUTO_SUBMITTED"] },
+        "cameraStatus": { "type": "string", "enum": ["PENDING", "GRANTED", "DENIED", "DISCONNECTED"] },
+        "fullscreenActive": { "type": "boolean" },
+        "lookingAwayWarnings": { "type": "integer" },
+        "maxLookingAwayWarnings": { "type": "integer" },
+        "faceMissingWarnings": { "type": "integer" },
+        "maxFaceMissingWarnings": { "type": "integer" },
+        "fullscreenExitCount": { "type": "integer" },
+        "submissionReason": { "type": "string", "enum": ["MANUAL", "TIMER_EXPIRED", "LOOKING_AWAY_LIMIT", "FACE_MISSING_LIMIT"] },
+        "submissionMessage": { "type": "string", "maxLength": 300 },
+        "score": { "type": "number" },
+        "maxScore": { "type": "number" },
+        "accuracyPercent": { "type": "number" },
+        "events": { "type": "array" },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "studentName", "examTitle", "exam", "status", "cameraStatus", "fullscreenActive", "lookingAwayWarnings", "maxLookingAwayWarnings", "faceMissingWarnings", "maxFaceMissingWarnings", "fullscreenExitCount", "events", "updatedAt"]
+    },
+    "FlashcardProgress": {
+      "title": "FlashcardProgress",
+      "description": "User spaced repetition progress for a flashcard.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 160 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "cardId": { "type": "string", "maxLength": 128 },
+        "intervalDays": { "type": "number" },
+        "easeFactor": { "type": "number" },
+        "repetitionCount": { "type": "integer" },
+        "nextReviewTimestamp": { "type": "integer" },
+        "lastRating": { "type": "string", "enum": ["AGAIN", "HARD", "EASY"] },
+        "status": { "type": "string", "enum": ["NEW", "LEARNING", "REVIEW", "MASTERED"] },
+        "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD"] },
+        "updatedAt": { "type": "integer" }
+      },
+      "required": ["id", "userId", "cardId", "intervalDays", "easeFactor", "repetitionCount", "nextReviewTimestamp", "status", "updatedAt"]
+    },
+    "FlashcardTestAttempt": {
+      "title": "FlashcardTestAttempt",
+      "description": "Completed chapter revision test result.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "chapter": { "type": "string", "maxLength": 120 },
+        "subject": { "type": "string", "enum": ["Physics", "Chemistry", "Mathematics"] },
+        "score": { "type": "number" },
+        "maxScore": { "type": "number" },
+        "correctCount": { "type": "integer" },
+        "incorrectCount": { "type": "integer" },
+        "unattemptedCount": { "type": "integer" },
+        "accuracyPercent": { "type": "number" },
+        "timeSpentSeconds": { "type": "integer" },
+        "questionResults": { "type": "array" },
+        "createdAt": { "type": "integer" }
+      },
+      "required": ["id", "userId", "chapter", "subject", "score", "maxScore", "correctCount", "accuracyPercent", "createdAt"]
+    },
+    "AdminRole": {
+      "title": "AdminRole",
+      "description": "Designated exam administrator record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "displayName": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "createdAt"]
+    },
+    "AiSettings": {
+      "title": "AiSettings",
+      "description": "Global admin-controlled AI model routing, diagram generation, and daily question quota configuration.",
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "model": { "type": "string", "maxLength": 80 },
+        "backupModel": { "type": "string", "maxLength": 80 },
+        "diagramMode": { "type": "string", "enum": ["SVG_ONLY", "SVG_WITH_IMAGE_FALLBACK"] },
+        "maxDailyMessages": { "type": "integer" },
+        "maxDailyAiQuestions": { "type": "integer" },
+        "maxQuestionsPerPaper": { "type": "integer" },
+        "allowImages": { "type": "boolean" },
+        "allowPdfs": { "type": "boolean" },
+        "enableGemini": { "type": "boolean" },
+        "enableOpenAi": { "type": "boolean" },
+        "enableAnthropic": { "type": "boolean" },
+        "enableDeepSeek": { "type": "boolean" },
+        "enableGroq": { "type": "boolean" },
+        "updatedBy": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["enabled", "model", "maxDailyMessages", "allowImages", "allowPdfs", "updatedAt"]
+    },
+    "GeneratedPaper": {
+      "title": "GeneratedPaper",
+      "description": "Saved AI-generated custom question paper including questions, scientific SVG diagrams, solutions, and marking rules.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "maxLength": 160 },
+        "examTarget": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET", "CBSE_BOARDS", "CUSTOM"] },
+        "customExamName": { "type": "string", "maxLength": 80 },
+        "classChoice": { "type": "string", "enum": ["11", "12", "OTHER"] },
+        "subject": { "type": "string", "enum": ["Physics", "Chemistry", "Mathematics", "Biology"] },
+        "chapters": { "type": "array" },
+        "specificTopic": { "type": "string", "maxLength": 160 },
+        "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD", "MIXED"] },
+        "questionFormats": { "type": "array" },
+        "negativeMarkingEnabled": { "type": "boolean" },
+        "markingCorrect": { "type": "number" },
+        "markingIncorrect": { "type": "number" },
+        "durationMins": { "type": "integer" },
+        "untimed": { "type": "boolean" },
+        "includeSolutions": { "type": "boolean" },
+        "includeHints": { "type": "boolean" },
+        "modelUsed": { "type": "string", "maxLength": 80 },
+        "providerUsed": { "type": "string", "maxLength": 40 },
+        "diagramCount": { "type": "integer" },
+        "questions": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "title", "examTarget", "classChoice", "subject", "chapters", "difficulty", "questionFormats", "negativeMarkingEnabled", "markingCorrect", "markingIncorrect", "durationMins", "untimed", "includeSolutions", "includeHints", "modelUsed", "providerUsed", "diagramCount", "questions", "createdAt", "updatedAt"]
+    },
+    "SavedAiQuestion": {
+      "title": "SavedAiQuestion",
+      "description": "Personal saved AI question with optional structured blocks and scientific SVG diagram.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "paperId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "examTarget": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET", "CBSE_BOARDS", "CUSTOM"] },
+        "classLevel": { "type": "string", "enum": ["11", "12", "ALL", "OTHER"] },
+        "subject": { "type": "string", "enum": ["Physics", "Chemistry", "Mathematics", "Biology"] },
+        "topic": { "type": "string", "maxLength": 120 },
+        "questionType": { "type": "string", "enum": ["MCQ", "NUMERICAL", "MULTI_MCQ"] },
+        "aiFormat": { "type": "string", "enum": ["MCQ", "MULTI_MCQ", "NUMERICAL", "ASSERTION_REASON", "MATCH_FOLLOWING", "STATEMENT_BASED", "DIAGRAM_BASED", "CASE_BASED", "INTEGER", "PYQ_INSPIRED"] },
+        "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD"] },
+        "prompt": { "type": "string", "maxLength": 4000 },
+        "options": { "type": "array" },
+        "correctAnswer": { "type": "string", "maxLength": 200 },
+        "solution": { "type": "string", "maxLength": 4000 },
+        "hint": { "type": "string", "maxLength": 800 },
+        "passage": { "type": "string", "maxLength": 2000 },
+        "assertionText": { "type": "string", "maxLength": 800 },
+        "reasonText": { "type": "string", "maxLength": 800 },
+        "matchLeft": { "type": "array" },
+        "matchRight": { "type": "array" },
+        "statements": { "type": "array" },
+        "requiresDiagram": { "type": "boolean" },
+        "diagramCategory": { "type": "string", "maxLength": 60 },
+        "diagramTitle": { "type": "string", "maxLength": 120 },
+        "diagramCaption": { "type": "string", "maxLength": 240 },
+        "diagramPlacement": { "type": "string", "enum": ["above", "below"] },
+        "diagramSvg": { "type": "string", "maxLength": 20000 },
+        "imageUrl": { "type": "string", "maxLength": 250000 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "examTarget", "classLevel", "subject", "topic", "questionType", "aiFormat", "difficulty", "prompt", "options", "correctAnswer", "requiresDiagram", "createdAt"]
+    },
+    "AiGenerationLog": {
+      "title": "AiGenerationLog",
+      "description": "Audit and quota tracking record for AI paper and question generation calls.",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userEmail": { "type": "string", "maxLength": 320 },
+        "status": { "type": "string", "enum": ["SUCCESS", "ERROR"] },
+        "action": { "type": "string", "enum": ["GENERATE_PAPER", "REGENERATE_QUESTION"] },
+        "examTarget": { "type": "string", "enum": ["JEE_MAINS", "JEE_ADV", "NEET", "CBSE_BOARDS", "CUSTOM"] },
+        "subject": { "type": "string", "enum": ["Physics", "Chemistry", "Mathematics", "Biology"] },
+        "chaptersSummary": { "type": "string", "maxLength": 160 },
+        "requestedCount": { "type": "integer" },
+        "generatedCount": { "type": "integer" },
+        "diagramCount": { "type": "integer" },
+        "modelUsed": { "type": "string", "maxLength": 80 },
+        "providerUsed": { "type": "string", "maxLength": 40 },
+        "durationMs": { "type": "integer" },
+        "errorMessage": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "status", "action", "examTarget", "subject", "requestedCount", "generatedCount", "diagramCount", "modelUsed", "providerUsed", "durationMs", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserPrivate" },
+      "description": "Private user account and preferences."
+    },
+    "/publicProfiles/{userId}": {
+      "schema": { "$ref": "#/entities/PublicProfile" },
+      "description": "Public leaderboard and collaborator identity without PII."
+    },
+    "/pyqBanks/{bankId}": {
+      "schema": { "$ref": "#/entities/PyqBank" },
+      "description": "Uploaded PYQ PDF metadata."
+    },
+    "/pyqQuestions/{questionId}": {
+      "schema": { "$ref": "#/entities/PyqQuestion" },
+      "description": "Individual PYQs parsed from PDFs or added manually."
+    },
+    "/testAttempts/{attemptId}": {
+      "schema": { "$ref": "#/entities/TestAttempt" },
+      "description": "User CBT test results and detailed analytics."
+    },
+    "/bookmarks/{bookmarkId}": {
+      "schema": { "$ref": "#/entities/Bookmark" },
+      "description": "Bookmarked difficult questions for revision."
+    },
+    "/plannerTasks/{taskId}": {
+      "schema": { "$ref": "#/entities/PlannerTask" },
+      "description": "Daily tasks, timetable slots, and test plans."
+    },
+    "/studySessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/StudySession" },
+      "description": "Pomodoro and focused study logs."
+    },
+    "/studyFolders/{folderId}": {
+      "schema": { "$ref": "#/entities/StudyFolder" },
+      "description": "Personal and shared collaborative note folders."
+    },
+    "/studyNotes/{noteId}": {
+      "schema": { "$ref": "#/entities/StudyNote" },
+      "description": "Study notes belonging to personal or shared folders."
+    },
+    "/studyGroups/{groupId}": {
+      "schema": { "$ref": "#/entities/StudyGroup" },
+      "description": "Collaborative study groups."
+    },
+    "/studyGroups/{groupId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/GroupMessage" },
+      "description": "Real-time group chat messages."
+    },
+    "/duels/{duelId}": {
+      "schema": { "$ref": "#/entities/TestDuel" },
+      "description": "Real-time 1v1 competitive PYQ duel rooms."
+    },
+    "/mistakeLogs/{logId}": {
+      "schema": { "$ref": "#/entities/MistakeLog" },
+      "description": "Error notebook entries for reviewing incorrect and slow test questions."
+    },
+    "/teachers/{teacherId}": {
+      "schema": { "$ref": "#/entities/TeacherProfile" },
+      "description": "Tuition teacher profiles created by the user."
+    },
+    "/tuitionSessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/TuitionSession" },
+      "description": "Tuition schedules and Teacher Came/Gone attendance logs."
+    },
+    "/stopwatchRecords/{recordId}": {
+      "schema": { "$ref": "#/entities/StopwatchRecord" },
+      "description": "Personal study stopwatch and completed tuition duration records."
+    },
+    "/studyTrackSettings/{userId}": {
+      "schema": { "$ref": "#/entities/StudyTrackSettings" },
+      "description": "User Google Calendar and tuition reminder settings."
+    },
+    "/dailyGoalLogs/{logId}": {
+      "schema": { "$ref": "#/entities/DailyGoalLog" },
+      "description": "Daily question target completion tracker logs."
+    },
+    "/proctoringSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/ProctoringSettings" },
+      "description": "Admin-managed AI proctoring and daily goal defaults."
+    },
+    "/examProctoringSessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/ExamProctoringSession" },
+      "description": "Student exam proctoring sessions, warning counters, and timestamped event logs."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRole" },
+      "description": "Authorized proctoring admin accounts."
+    },
+    "/flashcardProgress/{progressId}": {
+      "schema": { "$ref": "#/entities/FlashcardProgress" },
+      "description": "User spaced repetition progress for individual flashcards."
+    },
+    "/flashcardTests/{testId}": {
+      "schema": { "$ref": "#/entities/FlashcardTestAttempt" },
+      "description": "Completed chapter revision test attempts and scores."
+    },
+    "/aiSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/AiSettings" },
+      "description": "Global admin-controlled AI provider routing, diagram settings, and quota caps."
+    },
+    "/generatedPapers/{paperId}": {
+      "schema": { "$ref": "#/entities/GeneratedPaper" },
+      "description": "AI-generated question papers owned by individual students."
+    },
+    "/savedAiQuestions/{questionId}": {
+      "schema": { "$ref": "#/entities/SavedAiQuestion" },
+      "description": "Personal saved AI question bank for rapid custom revision drills."
+    },
+    "/aiGenerationLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AiGenerationLog" },
+      "description": "User and admin telemetry logs for AI paper generation and quota tracking."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "OBREN",
+  "description": "JEE Mains, JEE Advanced, and NEET PYQ CBT testing platform with real-time analytics, 100MB PDF PYQ extraction, study planner, Pomodoro focus timer, collaborative folders, live chat, and competitive test duels.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

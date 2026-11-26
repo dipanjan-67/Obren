@@ -1,0 +1,60 @@
+[
+  {
+    "id": "att_1795682383946_fri3",
+    "testId": "test_1795682383941_cub6",
+    "testTitle": "Smoke Test Exam",
+    "teacherId": "teacher_tatai099",
+    "studentId": "smoke_stu_1",
+    "studentName": "Smoke Student",
+    "studentEmail": "",
+    "startedAt": 1795682383946,
+    "serverExpiresAt": 1795684183946,
+    "durationSeconds": 1800,
+    "answers": {
+      "q1": "A",
+      "q2": [
+        "A",
+        "C"
+      ],
+      "q3": "A"
+    },
+    "score": 8,
+    "maxScore": 12,
+    "accuracyPercent": 67,
+    "correctCount": 2,
+    "incorrectCount": 1,
+    "unattemptedCount": 0,
+    "evaluated": true,
+    "questionResults": [
+      {
+        "questionId": "q1",
+        "userAnswer": "A",
+        "correctAnswer": "A",
+        "isCorrect": true,
+        "marksAwarded": 4,
+        "explanation": ""
+      },
+      {
+        "questionId": "q2",
+        "userAnswer": [
+          "A",
+          "C"
+        ],
+        "correctAnswer": "A, C",
+        "isCorrect": true,
+        "marksAwarded": 4,
+        "explanation": ""
+      },
+      {
+        "questionId": "q3",
+        "userAnswer": "A",
+        "correctAnswer": "B",
+        "isCorrect": false,
+        "marksAwarded": -1,
+        "explanation": ""
+      }
+    ],
+    "submittedAt": 1795682383949,
+    "teacherFeedback": "Good work"
+  }
+]

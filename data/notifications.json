@@ -1,0 +1,80 @@
+[
+  {
+    "id": "notif_1795682383956_wq92",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "TEST_RESULTS_RELEASED",
+    "title": "📊 Results Released: Smoke Test Exam",
+    "message": "Prof. Tatai has released results & answer keys for Smoke Test Exam. Check your detailed performance!",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.956Z"
+  },
+  {
+    "id": "notif_1795682383942_0zgi",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "TEST_ASSIGNED",
+    "title": "📝 New Test: Smoke Test Exam",
+    "message": "Prof. Tatai assigned a new Physics test (3 questions, 30 mins).",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.942Z"
+  },
+  {
+    "id": "notif_1795682383926_u1q6",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "LIVE_CLASS_STARTED",
+    "title": "🔴 Live Class: Live Kinematics",
+    "message": "Prof. Tatai has started a live Google Meet class for Smoke Test Physics. Click to join.",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.926Z"
+  },
+  {
+    "id": "notif_1795682383912_mitx",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "ANNOUNCEMENT",
+    "title": "📢 Announcement: Quiz Tonight",
+    "message": "Be ready",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.912Z"
+  },
+  {
+    "id": "notif_1795682383907_xe0c",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "MATERIAL_UPLOADED",
+    "title": "📚 Study Material: Formula PDF",
+    "message": "Prof. Tatai uploaded new Physics study material for Smoke Test Physics.",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.907Z"
+  },
+  {
+    "id": "notif_1795682383901_4hdb",
+    "recipientId": "smoke_stu_1",
+    "senderId": "teacher_tatai099",
+    "senderName": "Prof. Tatai",
+    "groupId": "grp_1795682383889_1koz",
+    "groupName": "Smoke Test Physics",
+    "type": "ANNOUNCEMENT",
+    "title": "Welcome to Smoke Test Physics",
+    "message": "You have successfully joined Smoke Test Physics taught by Prof. Tatai.",
+    "read": false,
+    "createdAt": "2026-11-26T08:39:43.901Z"
+  }
+]

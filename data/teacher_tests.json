@@ -1,0 +1,77 @@
+[
+  {
+    "id": "test_1795682383941_cub6",
+    "teacherId": "teacher_tatai099",
+    "teacherName": "Prof. Tatai",
+    "title": "Smoke Test Exam",
+    "subject": "Physics",
+    "classLevel": "12",
+    "chapter": "General",
+    "topic": "",
+    "description": "",
+    "totalMarks": 12,
+    "totalQuestions": 3,
+    "durationMinutes": 30,
+    "startDate": "2026-11-26T08:39",
+    "negativeMarkingEnabled": true,
+    "instructions": "",
+    "targetGroupIds": [
+      "grp_1795682383889_1koz"
+    ],
+    "targetGroupNames": [
+      "Smoke Test Physics"
+    ],
+    "questions": [
+      {
+        "id": "q1",
+        "type": "SINGLE_MCQ",
+        "prompt": "Q1?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "A",
+        "positiveMarks": 4,
+        "negativeMarks": -1,
+        "explanation": ""
+      },
+      {
+        "id": "q2",
+        "type": "MULTI_MCQ",
+        "prompt": "Q2?",
+        "options": [
+          "A1",
+          "B1",
+          "C1",
+          "D1"
+        ],
+        "correctAnswer": "A, C",
+        "positiveMarks": 4,
+        "negativeMarks": -1,
+        "explanation": ""
+      },
+      {
+        "id": "q3",
+        "type": "SINGLE_MCQ",
+        "prompt": "Q3?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "B",
+        "positiveMarks": 4,
+        "negativeMarks": -1,
+        "explanation": ""
+      }
+    ],
+    "resultsReleased": true,
+    "allowRetake": false,
+    "status": "PUBLISHED",
+    "createdAt": "2026-11-26T08:39:43.941Z",
+    "updatedAt": "2026-11-26T08:39:43.956Z"
+  }
+]
